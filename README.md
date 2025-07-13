@@ -1,199 +1,150 @@
 
-# Gifted Ministers KE Core API
+---
 
-A production-ready backend API for Gifted Ministers Kenya, built with Flask, Supabase, JWT authentication, and Pydantic validation. This service powers user profiles, song and event management, and secures access with role-based controls.
+## 📦 Gifted Ministers KE Core API
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
+A production-grade RESTful API built for **Gifted Ministers Kenya** using Flask, Supabase, and JWT authentication. This backend powers user profiles, songs, events, and provides secure, role-based access to administrative actions.
 
 ---
 
-## Features
+## 🧩 Features
 
-- User authentication and profile management  
-- CRUD operations for songs and events  
-- JWT-based security with admin role restrictions  
-- Request validation using Pydantic models  
-- Comprehensive OpenAPI 3.0 documentation  
-- Dockerized deployment with Gunicorn  
-- Environment-driven configuration  
-
----
-
-## Prerequisites
-
-- Python 3.10 or higher  
-- pip package manager  
-- Git client  
-- Supabase project (URL, anon key, service role key)  
-- Docker & Docker Compose (optional, for containerization)  
+- ✅ User authentication with Supabase JWT  
+- ✅ Profile fetch and update (`/users/me`)  
+- ✅ Admin-only song & event creation  
+- ✅ Request validation via Pydantic models  
+- ✅ Docker containerization for deployment  
+- ✅ OpenAPI 3.0-compatible API docs  
+- ✅ Scalable and testable project structure  
 
 ---
 
-## Getting Started
+## 🚀 Technologies Used
 
-### Clone the Repository
+| Category         | Tool                      |
+|------------------|---------------------------|
+| Framework        | Flask                     |
+| Authentication   | Supabase + JWT            |
+| Validation       | Pydantic                  |
+| Deployment       | Docker + Gunicorn         |
+| Documentation    | OpenAPI 3.0 / Swagger UI  |
+| Testing          | Pytest                    |
+
+---
+
+## 🧰 Setup Instructions
+
+### 🔑 Step 1: Clone and Initialize
 
 ```bash
 git clone https://github.com/KabulaBenjamin/gifted-api-core.git
 cd gifted-api-core
-```
-
-### Create and Activate a Virtual Environment
-
-```bash
 python -m venv venv
+source venv/bin/activate  # Or use venv\Scripts\activate on Windows
 ```
 
-On Windows:
-
-```bash
-venv\Scripts\activate
-```
-
-On macOS/Linux:
-
-```bash
-source venv/bin/activate
-```
-
-### Install Dependencies
+### 📦 Step 2: Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Configure Environment Variables
-
-Create a file named `.env` in the project root with these values:
+### 🛠 Step 3: Configure `.env`
 
 ```ini
 SUPABASE_URL=https://dempwwlkxthiykhxtmyt.supabase.co
-SUPABASE_ANON_KEY=<your-public-anon-key>
-SUPABASE_SERVICE_ROLE_KEY=<your-service-role-key>
-JWT_SECRET=<your-jwt-secret>
+SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+JWT_SECRET=...
 FLASK_ENV=development
 PORT=5000
 ```
 
 ---
 
-## Running Locally
-
-Start the Flask development server:
+## 🧪 Running Locally
 
 ```bash
 flask run
 ```
 
-The healthcheck endpoint will respond at:  
-http://localhost:5000/
+Then visit: [http://localhost:5000](http://localhost:5000)
 
 ---
 
-## Docker Deployment
-
-Build the Docker image:
+## 🐳 Docker Usage
 
 ```bash
 docker build -t gifted-core .
-```
-
-Run the container, passing in your environment file:
-
-```bash
 docker run -p 5000:5000 --env-file .env gifted-core
 ```
 
-Your API is now available at http://localhost:5000/.
-
 ---
 
-## API Documentation
-
-The API adheres to OpenAPI 3.0. You can explore the full specification in `openapi.yaml`.
-
-### Interactive Docs with Swagger UI
-
-If you embed Swagger UI, visit:
-
-```
-http://localhost:5000/docs
-```
-
-### Raw OpenAPI Spec
-
-Download or view directly at:
-
-```
-http://localhost:5000/openapi.yaml
-```
-
----
-
-## Available Endpoints
+## 📘 API Endpoints
 
 ### Users
 
-- **GET** `/api/v1/users/me`  
-  Fetch the authenticated user’s profile.
-
-- **PATCH** `/api/v1/users/me`  
-  Update the authenticated user’s profile fields.
+| Method | Endpoint              | Description                  |
+|--------|------------------------|------------------------------|
+| GET    | `/api/v1/users/me`    | Get current user profile     |
+| PATCH  | `/api/v1/users/me`    | Update current user info     |
 
 ### Songs
 
-- **GET** `/api/v1/songs`  
-  List all songs.
-
-- **GET** `/api/v1/songs/{song_id}`  
-  Retrieve a specific song.
-
-- **POST** `/api/v1/songs` *(admin only)*  
-  Create a new song.
-
-- **PATCH** `/api/v1/songs/{song_id}` *(admin only)*  
-  Update song details.
-
-- **DELETE** `/api/v1/songs/{song_id}` *(admin only)*  
-  Delete a song.
+| Method | Endpoint                  | Description              |
+|--------|---------------------------|--------------------------|
+| GET    | `/api/v1/songs`           | List songs               |
+| GET    | `/api/v1/songs/{id}`      | Get song details         |
+| POST   | `/api/v1/songs` *(admin)* | Create a new song        |
+| PATCH  | `/api/v1/songs/{id}` *(admin)* | Update a song      |
+| DELETE | `/api/v1/songs/{id}` *(admin)* | Delete a song      |
 
 ### Events
 
-- **GET** `/api/v1/events`  
-  List all events.
-
-- **GET** `/api/v1/events/{event_id}`  
-  Retrieve a specific event.
-
-- **POST** `/api/v1/events` *(admin only)*  
-  Create a new event.
-
-- **PATCH** `/api/v1/events/{event_id}` *(admin only)*  
-  Update event details.
-
-- **DELETE** `/api/v1/events/{event_id}` *(admin only)*  
-  Delete an event.
+| Method | Endpoint                    | Description                |
+|--------|-----------------------------|----------------------------|
+| GET    | `/api/v1/events`            | List events                |
+| GET    | `/api/v1/events/{id}`       | Get event details          |
+| POST   | `/api/v1/events` *(admin)*  | Create a new event         |
+| PATCH  | `/api/v1/events/{id}` *(admin)* | Update an event      |
+| DELETE | `/api/v1/events/{id}` *(admin)* | Delete an event      |
 
 ---
 
-## Testing
+## 📝 Documentation
 
-Run the full test suite with:
+- OpenAPI spec: [`openapi.yaml`](./openapi.yaml)  
+- Swagger UI: `http://localhost:5000/docs` *(optional setup required)*
+
+---
+
+## 🔬 Testing
 
 ```bash
 pytest
 ```
 
-Ensure you configure a test database or mock Supabase client for integration tests.
+Unit & integration tests should mock Supabase or use staging keys.
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
-- Fork the repository and create a feature branch.  
-- Implement your changes and add tests.  
-- Submit a pull request with a descriptive title and summary.  
+1. Fork this repo  
+2. Create your feature branch (`git checkout -b feature/awesome`)  
+3. Commit your changes (`git commit -am 'feat: add awesome feature'`)  
+4. Push and create a pull request
 
 ---
 
-## License
+## 📄 License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the [MIT License](./LICENSE).  
+Feel free to use, remix, or contribute!
+
+---
+
+Want me to prep Week 4 routes now, or help you set up CI using GitHub Actions?
