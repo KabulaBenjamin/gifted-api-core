@@ -1,0 +1,167 @@
+openapi: 3.0.0
+info:
+  title: Gifted Ministers KE API
+  version: v1
+servers:
+  - url: http://localhost:5000
+paths:
+  /api/v1/songs:
+    get:
+      summary: List all songs
+      responses:
+        '200':
+          description: Array of songs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Song'
+    post:
+      summary: Create a new song (admin)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SongCreate'
+      responses:
+        '201':
+          description: Created song
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+  /api/v1/songs/{song_id}:
+    get:
+      summary: Retrieve a song by ID
+      parameters:
+        - name: song_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Song object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+  /api/v1/events:
+    get:
+      summary: List all events
+      responses:
+        '200':
+          description: Array of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+    post:
+      summary: Create a new event (admin)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventCreate'
+      responses:
+        '201':
+          description: Created event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+  /api/v1/events/{event_id}:
+    get:
+      summary: Retrieve an event by ID
+      parameters:
+        - name: event_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Event object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Song:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        artist:
+          type: string
+        album:
+          type: string
+        duration_seconds:
+          type: integer
+    SongCreate:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        artist:
+          type: string
+        album:
+          type: string
+        duration_seconds:
+          type: integer
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        location:
+          type: string
+    EventCreate:
+      type: object
+      required:
+        - name
+        - start_time
+        - end_time
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        location:
+          type: string
